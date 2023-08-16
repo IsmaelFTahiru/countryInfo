@@ -11,6 +11,7 @@ async function getCountryInfo() {
   const errMessg = `!The error: ${response.status} occurred!`;
   throw new Error(errMessg); 
  }
+ 
 /*
   for (let i = 0; i < response.length; i++) {
     const country = await response[i];
