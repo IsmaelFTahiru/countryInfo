@@ -1,38 +1,40 @@
 body {
   background-image: url(https://cdn3.vectorstock.com/i/1000x1000/71/42/world-flags-background-vector-7437142.jpg);
   width: 100%;
+  min-height: fit-content;
 }
 
 h1 {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   text-align: center;
   font-size: 100px;
   text-shadow: 4px 4px 12px #ffff;
 }
 
 h4 {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   text-align: center;
   font-size: 60px;
   text-shadow: 4px 4px 12px #ffff;
 }
 
+
+
 #formContainer {
-  display: flex;
+  display: inline-block;
   justify-content: center;
 }
 
 #countryInputContainer {
   display: flex;
-  text-align: center;
   flex-direction: row;
   border: 1px solid black;
   padding: 1px;
   width: 600px;
 }
 
-#inputElement {
+.inputElement {
   text-align: center;
   width: 200px;
   height: 100px;
@@ -41,11 +43,11 @@ h4 {
   flex-grow: 2;
 }
 
-#inputElement::first-letter {
+.inputElement::first-letter {
   text-transform: uppercase;
 }
 
-#inputElement:focus {
+.inputElement:focus {
   outline: none;
 }
 
@@ -55,19 +57,20 @@ h4 {
 
 #searchBtn {
   width: 100px;
-
   cursor: pointer;
   border: 1px solid white;
   background: black;
   color: white;
 }
 
-
-#countryInfoCard {
- padding: 10%;
+.countryInfoCard {
   position: absolute;
+  padding: 10%;
   background-color: #ffff;
   border-style: dashed;
   border-width: 5px;
-
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-bottom: 99%;
+  margin-top: 1%;
 }

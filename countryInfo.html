@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <link rel="stylesheet" type="text/css" href="countryInfo.css">
 <header>
     <title>countryInfo.com</title>
@@ -10,19 +11,15 @@
     <div id="backgroundImage"></div>
     <div id="formContainer">
         <form id="countryInputContainer">
-            <input type="text" autocapitalize="word" id="inputElement" />
-            <button id="searchBtn">Search</button>
+            <input type="text" autocapitalize="word" class="inputElement" id="inputField" />
+            <button type="button" class="countryLookup" id="searchBtn">Search</button>
         </form>
-    </div>
-    <div id="countryInfoCard">
-<h3>Information about the Country</h3>
-<p>Name:</p>
-<p>Capital:</p>
-<p>Code:</p>
-<p>Region:</p>
-<br>
-
-    </div>
+    </div> 
     <script src="countryInfo.js">
+        window.onload = function() {
+            localStorage.clear()
+        }
     </script>
 </body>
+
+</html>

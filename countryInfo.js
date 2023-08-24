@@ -1,38 +1,53 @@
-"use strict";
-
-const countryInput = document.querySelector(".countryInput");
-
-const url = "https://restcountries.com/v3.1/all";
+const url = 'https://restcountries.com/v3.1/all';
 
 async function getCountryInfo() {
-  const countryInfo = await fetch('https://restcountries.com/v3.1/all');
-  const response = await countryInfo.json();
- if(!response.ok){
-  const errMessg = `!The error: ${response.status} occurred!`;
-  throw new Error(errMessg); 
- }
- 
-/*
-  for (let i = 0; i < response.length; i++) {
-    const country = await response[i];
-    //const countryName = await country.name
-//console.log(country.name.common)
-   
-    searchBtn.addEventListener("click", function () {
-      const countryInput = document.querySelector(".countryInput");
-      if (country.name.common == countryInput.value) {
-        console.log('Button works')
-        return (
-          country.name,
-          country.capital,
-          country.code,
-          country.currency,
-          country.region
-        );
-      }
-    });
+  const countryInfo = await fetch(url);
+
+  if (!countryInfo.ok) {
+    const errMessg = `!The error: ${response.status} occurred!`;
+    throw new Error(errMessg);
   }
-  */
+
+  const response = await countryInfo.json();
+
+  return response;
 }
 
-getCountryInfo();
+getCountryInfo().catch((error) => {
+  error.errMessg;
+});
+
+let countryData = getCountryInfo();
+const data = countryData.then((items) => {
+  const countryArr = items;
+  console.log(countryArr[0].flags.svg);
+
+  
+    for (let i = 0; i < countryArr.length; i++) {
+      const countryInput = document.getElementById('inputField');
+      if (countryArr[i].name.common === countryInput.value) {
+        localStorage.clear();
+        localStorage.setItem('countryName', ` ${countryArr[i].name.common}`);
+        localStorage.setItem('countryCapital', ` ${countryArr[i].capital[0]}`);
+        localStorage.setItem('countryPopulation',` ${countryArr[i].population}`);
+        localStorage.setItem('countryRegion', ` ${countryArr[i].region}`);
+        localStorage.setItem('countryFlag', countryArr[i].flags.png )
+      }
+    };
+});
+
+
+
+function openInfoPage() {
+  window.location.href = 'http://127.0.0.1:5500/countryInfoOutput.html';
+}
+
+const searchButton = document.getElementById('searchBtn');
+
+searchButton.addEventListener('click', function () {
+  console.log('button');
+  openInfoPage();
+ 
+});
+
+

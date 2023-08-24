@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="">
+<header>
+    <title>countryInfo.com</title>
+</header>
+
+<body>
+    <div class="countryInfoCard">
+        <h3>Information about the Country</h3>
+        <p id="countryName">Name:</p>
+        <p id="countryCapital">Capital:</p>
+        <p id="countryPopulation">Population:</p>
+        <p id="countryRegion">Region:</p>
+        <br>
+        <img src="" id="countryFlag">
+    </div>
+    <script>
+        window.onload = function () {
+            const countryName = document.getElementById('countryName');
+            const countryCapital = document.getElementById('countryCapital');
+            const countryPopulation = document.getElementById('countryPopulation');
+            const countryRegion = document.getElementById('countryRegion');
+            const countryFalg = document.getElementById('contryFlag');
+
+            countryName.textContent += localStorage.getItem('countryName');
+            countryCapital.textContent += localStorage.getItem('countryCapital');
+            countryPopulation.textContent += localStorage.getItem('countryPopulation');
+            countryRegion.textContent += localStorage.getItem('countryRegion');
+            countryFlag.src = localStorage.getItem('countryFlag')
+
+        };
+    </script>
+</body>
