@@ -57,17 +57,9 @@ const data = countryData.then((items) => {
 
     createFlagCard(JSON.parse(countryObject));
   });
-  
 });
 
-
-
-
-
-
 const createFlagCard = function (countryData) {
- 
-
   const countryCardContainer = document.querySelector('.countryCardContainer');
 
   const countryCard = document.createElement('div');
@@ -112,21 +104,15 @@ const createFlagCard = function (countryData) {
   countryCard.appendChild(countryRegion);
   countryRegion.setAttribute('id', `countryRegion${countryCardOrder}`);
 };
-console.log(countryCardOrder)
+console.log(countryCardOrder);
 
-const presentCountryCards = function (){
-  
-  
- 
-  }
-  
-  window.onload = function () {
+const presentCountryCards = function () {};
 
-    Object.keys(localStorage).forEach((keys) => {
-      let countryCardKey = localStorage.getItem(keys);
-    createFlagCard(JSON.parse(countryCardKey))
-    })
-    
-  };
+window.onload = function () {
+  Object.keys(localStorage).forEach((keys) => {
+    let countryCardKey = localStorage.getItem(keys);
+    createFlagCard(JSON.parse(countryCardKey));
+  });
+};
 
-  //next find a way to present the countryCrads with the data in local storage after user gets back on the page; idea: store data in one array inn local storage
+//next find a way to present the countryCrads with the data in local storage after user gets back on the page; idea: store data in one array inn local storage
