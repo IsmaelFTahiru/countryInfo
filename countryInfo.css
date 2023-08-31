@@ -63,14 +63,19 @@ h4 {
   color: white;
 }
 
-.countryInfoCard {
-  position: absolute;
+.countryCardContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  row-gap: 20px;
+  
+}
+
+.countryCard {
   padding: 10%;
   background-color: #ffff;
   border-style: dashed;
   border-width: 5px;
-  margin-left: 25%;
-  margin-right: 25%;
-  margin-bottom: 99%;
-  margin-top: 1%;
+ 
 }
