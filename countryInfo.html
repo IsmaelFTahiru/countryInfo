@@ -6,6 +6,7 @@
 </header>
 
 <body>
+    <button id="clearHistoryBtn">Clear Search History</button>
     <h1>Country-Info.com</h1>
     <h4>Enter the name of a country you want to know more about.</h4>
     <div id="backgroundImage"></div>
@@ -15,14 +16,10 @@
             <button type="button" class="countryLookup" id="searchBtn">Search</button>
         </form>
     </div> 
-    <button id="testButton"></button>
+    <br>
     <div class="countryCardContainer">
     </div>
-    <script src="countryInfo.js">
-        window.onload = function() {
-            localStorage.clear()
-        }
-    </script>
+    <script src="countryInfo.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,6 @@
 'use strict';
 
-let countryCardOrder = -1;
+let countryCardOrder = 0;
 
 const url = 'https://restcountries.com/v3.1/all';
 
@@ -67,6 +67,12 @@ const createFlagCard = function (countryData) {
   countryCard.setAttribute('id', `countryCard${countryCardOrder}`);
   countryCardContainer.appendChild(countryCard);
 
+  const deleteCardBtn = document.createElement('button');
+  deleteCardBtn.classList.add('deleteCardBtn')
+  deleteCardBtn.setAttribute('id', `deleteCardBtn${countryCardOrder}`);
+  deleteCardBtn.textContent = 'x';
+  countryCard.appendChild(deleteCardBtn);
+
   const countryFlag = document.createElement('img');
   countryFlag.src = countryData.flagData;
   countryCard.appendChild(countryFlag);
@@ -115,4 +121,30 @@ window.onload = function () {
   });
 };
 
-//next find a way to present the countryCrads with the data in local storage after user gets back on the page; idea: store data in one array inn local storage
+const clearLocalStorageButton = document.getElementById('clearHistoryBtn')
+
+clearLocalStorageButton.addEventListener('click', function(){
+  
+  localStorage.clear()
+  window.location.reload()
+});
+
+for(let i = 0; i<countryCardOrder; i++){
+  let deleteCardBtn = document.getElementById(`deleteCardBtn${i}}`);
+
+  let countryCardId = document.getElementById.apply(`countryCrad${i}`)
+
+
+  if (deleteCardBtn != null){
+console.log('12')
+    deleteCardBtn.addEventListener('click', function(){
+        if(deleteCardBtn === countryCardId){
+          console.log('delete')
+          countryCardId.remove()
+        }
+      
+    });
+    }
+}
+
+
