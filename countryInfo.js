@@ -35,9 +35,10 @@ const data = countryData.then((items) => {
       countryInput.addEventListener('focus', function () {
         if (countryInput.value !== null) {
           countryInput.value = '';
+          errorMessage.textContent = '';
         }
       });
-      if (countryArr[i].name.common === countryInput.value) {
+      if (countryArr[i].name.common == countryInput.value) {
         let countryCard = {
           flagData: countryArr[i].flags.png,
           nameData: ` ${countryArr[i].name.common}`,
@@ -52,13 +53,44 @@ const data = countryData.then((items) => {
         );
       }
     }
-
     let countryObject = localStorage.getItem(`countryCard${countryCardOrder}`);
 
-    createFlagCard(JSON.parse(countryObject));
+    try {
+      createFlagCard(JSON.parse(countryObject));
+    } catch (e) {
+      console.log(e);
+      const errorMessage = document.getElementById('errorMessage');
+      setTimeout(() => {
+        errorMessage.textContent = '';
+      }, 10000);
+      errorMessage.textContent = 'IHRE SUCHE ERGAB KEINE TREFFER!';
+
+      const invalidCard = document.getElementById(
+        `countryCard${countryCardOrder}`
+      );
+      invalidCard.remove();
+    }
+    
   });
 });
 
+/*
+const setCountryInfo = function (position) {
+  let countryCard = {
+    flagData: countryArr[position].flags.png,
+    nameData: ` ${countryArr[position].name.common}`,
+    capitalData: ` ${countryArr[position].capital[0]}`,
+    populationData: ` ${countryArr[position].population}`,
+    regionData: ` ${countryArr[position].region}`,
+  };
+
+  localStorage.setItem(
+    `countryCard${countryCardOrder}`,
+    JSON.stringify(countryCard)
+  );
+};
+*/
+let deleteCardBtn
 const createFlagCard = function (countryData) {
   const countryCardContainer = document.querySelector('.countryCardContainer');
 
@@ -67,11 +99,12 @@ const createFlagCard = function (countryData) {
   countryCard.setAttribute('id', `countryCard${countryCardOrder}`);
   countryCardContainer.appendChild(countryCard);
 
-  const deleteCardBtn = document.createElement('button');
-  deleteCardBtn.classList.add('deleteCardBtn')
+   deleteCardBtn = document.createElement('button');
+  deleteCardBtn.classList.add('deleteCardBtn');
   deleteCardBtn.setAttribute('id', `deleteCardBtn${countryCardOrder}`);
-  deleteCardBtn.textContent = 'x';
+  deleteCardBtn.innerHTML = 'x';
   countryCard.appendChild(deleteCardBtn);
+  
 
   const countryFlag = document.createElement('img');
   countryFlag.src = countryData.flagData;
@@ -110,7 +143,6 @@ const createFlagCard = function (countryData) {
   countryCard.appendChild(countryRegion);
   countryRegion.setAttribute('id', `countryRegion${countryCardOrder}`);
 };
-console.log(countryCardOrder);
 
 const presentCountryCards = function () {};
 
@@ -121,30 +153,30 @@ window.onload = function () {
   });
 };
 
-const clearLocalStorageButton = document.getElementById('clearHistoryBtn')
+const clearLocalStorageButton = document.getElementById('clearHistoryBtn');
 
-clearLocalStorageButton.addEventListener('click', function(){
-  
-  localStorage.clear()
-  window.location.reload()
+clearLocalStorageButton.addEventListener('click', function () {
+  localStorage.clear();
+  window.location.reload();
 });
 
-for(let i = 0; i<countryCardOrder; i++){
-  let deleteCardBtn = document.getElementById(`deleteCardBtn${i}}`);
-
-  let countryCardId = document.getElementById.apply(`countryCrad${i}`)
-
-
-  if (deleteCardBtn != null){
-console.log('12')
-    deleteCardBtn.addEventListener('click', function(){
-        if(deleteCardBtn === countryCardId){
-          console.log('delete')
-          countryCardId.remove()
-        }
-      
-    });
-    }
+for(let i = 0; i < countryCardOrder; i++){
+  console.log('erer')
 }
 
+/*
+console.log(deleteCardBtn);
 
+const cardToDelete = function () {
+  if (deleteCardBtn !== undefined) {
+    console.log(deleteCardBtn);
+    for (let b = 0; b < 1; b++) {
+      deleteCardBtn.item(b).addEventListener('click', function () {
+        console.log('delete');
+        deleteCardBtn.item(b).remove();
+      });
+    }
+  }
+  
+};
+*/

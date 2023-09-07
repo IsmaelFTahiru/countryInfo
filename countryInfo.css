@@ -2,6 +2,7 @@ body {
   background-image: url(https://cdn3.vectorstock.com/i/1000x1000/71/42/world-flags-background-vector-7437142.jpg);
   width: 100%;
   min-height: fit-content;
+  background-attachment: fixed;
 }
 
 h1 {
@@ -66,6 +67,13 @@ h4 {
   background: black;
   color: white;
   
+}
+
+#errorMessage {
+  color: rgb(227, 227, 3);
+ text-align: center;
+ font-weight: 900;
+ font-size: larger;
 }
 
 .countryCardContainer {
