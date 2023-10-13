@@ -1,7 +1,5 @@
 'use strict';
 
-let countryCardOrder = 0;
-
 const url = 'https://restcountries.com/v3.1/all';
 
 async function getCountryInfo() {
@@ -21,35 +19,57 @@ getCountryInfo().catch((error) => {
   error.errMessg;
 });
 
+let countryCardOrder = 0;
+let countryMatch = false;
+let validCountry = false;
+
 const errorMessage = document.getElementById('errorMessage');
 const countryInput = document.getElementById('inputField');
 countryInput.addEventListener('focus', function () {
   if (countryInput.value !== null) {
     countryInput.value = '';
     errorMessage.textContent = '';
+    countryMatch = false;
+    validCountry = false;
   }
 });
-
-//Find a way to use the the stored countryData in multiple places
-//Maybe write a function to get the countryData from Storage
-//const countryJson = [];
-//localStorage.setItem(`countryCards`, JSON.stringify(countryJson));
 
 let countryData = getCountryInfo();
 const data = countryData.then((items) => {
   const countryArr = items;
-  console.log(countryArr[0].name.common);
+
+  let countryJson = [];
+  localStorage.setItem(`countryCards`, JSON.stringify(countryJson));
 
   const searchButton = document.getElementById('searchBtn');
   searchButton.addEventListener('click', function () {
     countryCardOrder++;
 
-    console.log('Button works');
-
     let countryArray = localStorage.getItem(`countryCards`);
-    for (let a = 0; a < JSON.parse(countryArray).length; a++) {
-      for (let i = 0; i < countryArr.length; i++) {
-        if (countryArr[i].name.common === countryInput.value) {
+    let countryArrayFormat = JSON.parse(countryArray);
+
+    for (let i = 0; i < countryArr.length; i++) {
+      if (
+        countryArr[i].name.common.replace(/ /g, '') ===
+        countryInput.value.replace(/ /g, '')
+      ) {
+        validCountry = true;
+        countryMatch = true;
+
+        for (let a = 0; a < countryArrayFormat.length; a++) {
+          if (
+            countryArrayFormat[a].nameData.replace(/ /g, '') ===
+            countryInput.value.replace(/ /g, '')
+          ) {
+            console.log('Repeated Search');
+            countryMatch = false;
+
+            errorMessage.textContent =
+              'NACH DIESEM LAND HABEN SIE SCHON GESUCHT';
+          }
+        }
+        console.log(validCountry, countryMatch);
+        if (countryMatch === true) {
           console.log('match');
           let countryDataObject = {
             flagData: countryArr[i].flags.png,
@@ -59,36 +79,39 @@ const data = countryData.then((items) => {
             regionData: ` ${countryArr[i].region}`,
           };
 
-          const countryJson = [];
-
-          countryJson.unshift(countryDataObject);
-
-          console.log(countryJson, JSON.parse(countryArray)[a].nameData);
+          countryJson.push(countryDataObject);
 
           localStorage.setItem(`countryCards`, JSON.stringify(countryJson));
-        } /*else if (
-          Object.keys(JSON.parse(countryObject)).length !== 0 &&
-          JSON.parse(countryArray)[a].nameData === countryInput.value
+        } else if (
+          countryArrayFormat[a].nameData.replace(/ /g, '') ===
+          countryInput.value.replace(/ /g, '')
         ) {
-          errorMessage.textContent = 'NACH DIESEM LAND HABEN SIE SCHON GESUCHT';
-        }*/
-        console.log(countryJson, JSON.parse(countryArray)[a].nameData);
+          countryMatch = false;
+
+          errorMessage.textContent =
+            'NACH DIESEM LAND HABEN SIE SCHON GESUCHT1';
+        }
       }
     }
 
+    if (countryMatch !== true && validCountry !== true) {
+      errorMessage.textContent = 'IHRE SUCHE ERGAB KEINE TREFFER!';
+    }
+
     let countryObject = localStorage.getItem(`countryCards`);
-    const parsedObject = JSON.parse(countryObject);
-    console.log(parsedObject);
-    if (Object.keys(JSON.parse(countryObject)).length !== 0) {
+    let parsedCountryObject = JSON.parse(countryObject);
+    let countryArrIndex = parsedCountryObject.length - 1;
+
+    if (countryMatch === true && validCountry === true) {
       try {
-        createFlagCard(JSON.parse(countryObject));
+        createFlagCard(parsedCountryObject, countryArrIndex);
       } catch (e) {
         console.log(e);
 
         setTimeout(() => {
           errorMessage.textContent = '';
         }, 10000);
-        errorMessage.textContent = 'IHRE SUCHE ERGAB KEINE TREFFER!';
+        errorMessage.textContent = 'IHRE SUCHE ERGAB KEINE TREFFER!2';
 
         const invalidCard = document.getElementById(
           `countryCard${countryCardOrder}`
@@ -99,28 +122,11 @@ const data = countryData.then((items) => {
   });
 });
 
-/*
-const setCountryInfo = function (position) {
-  let countryCard = {
-    flagData: countryArr[position].flags.png,
-    nameData: ` ${countryArr[position].name.common}`,
-    capitalData: ` ${countryArr[position].capital[0]}`,
-    populationData: ` ${countryArr[position].population}`,
-    regionData: ` ${countryArr[position].region}`,
-  };
-
-  localStorage.setItem(
-    `countryCard${countryCardOrder}`,
-    JSON.stringify(countryCard)
-  );
-};
-*/
-
 const deleteCard = function (parent, child) {
   parent.removeChild(child);
 };
 
-const createFlagCard = function (countryData) {
+const createFlagCard = function (countryData, countryPosition) {
   const countryCardContainer = document.querySelector('.countryCardContainer');
 
   const countryCard = document.createElement('div');
@@ -138,7 +144,7 @@ const createFlagCard = function (countryData) {
   countryCard.appendChild(deleteCardBtn);
 
   const countryFlag = document.createElement('img');
-  countryFlag.src = countryData[0].flagData;
+  countryFlag.src = countryData[countryPosition].flagData;
   countryCard.appendChild(countryFlag);
   countryFlag.setAttribute('id', `countryFlag${countryCardOrder}`);
 
@@ -146,7 +152,7 @@ const createFlagCard = function (countryData) {
 
   const countryName = document.createElement('p');
   countryName.setAttribute('id', 'countryName');
-  countryName.textContent = `Name: ${countryData[0].nameData}`;
+  countryName.textContent = `Name: ${countryData[countryPosition].nameData}`;
   countryCard.appendChild(countryName);
   countryName.setAttribute('id', `countryName${countryCardOrder}`);
 
@@ -154,7 +160,7 @@ const createFlagCard = function (countryData) {
 
   const countryCapital = document.createElement('p');
   countryCapital.setAttribute('id', 'countryCapital');
-  countryCapital.textContent = `Capital: ${countryData[0].capitalData}`;
+  countryCapital.textContent = `Capital: ${countryData[countryPosition].capitalData}`;
   countryCard.appendChild(countryCapital);
   countryCapital.setAttribute('id', `countryCapital${countryCardOrder}`);
 
@@ -162,7 +168,7 @@ const createFlagCard = function (countryData) {
 
   const countryPopulation = document.createElement('p');
   countryPopulation.setAttribute('id', 'countryPopulation');
-  countryPopulation.textContent = `Population: ${countryData[0].populationData}`;
+  countryPopulation.textContent = `Population: ${countryData[countryPosition].populationData}`;
   countryCard.appendChild(countryPopulation);
   countryPopulation.setAttribute('id', `countryPopulation${countryCardOrder}`);
 
@@ -170,23 +176,12 @@ const createFlagCard = function (countryData) {
 
   const countryRegion = document.createElement('p');
   countryRegion.setAttribute('id', 'countryRegion');
-  countryRegion.textContent = `Region: ${countryData[0].regionData}`;
+  countryRegion.textContent = `Region: ${countryData[countryPosition].regionData}`;
   countryCard.appendChild(countryRegion);
   countryRegion.setAttribute('id', `countryRegion${countryCardOrder}`);
 };
 
 const presentCountryCards = function () {};
-
-let countryLocalStorage = localStorage.getItem('countryCards');
-console.log(countryLocalStorage);
-if (countryLocalStorage !== null) {
-  let countryLocalStorageArr = JSON.parse(countryLocalStorage);
-  for (let a = 0; a < countryLocalStorageArr.length; a++) {
-    window.onload = function () {
-      createFlagCard(countryLocalStorageArr[a]);
-    };
-  }
-}
 
 const clearLocalStorageButton = document.getElementById('clearHistoryBtn');
 

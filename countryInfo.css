@@ -87,12 +87,11 @@ h4 {
 
 .countryCard {
   padding: 10%;
-  background-color: #ffff;
+  background-color: #800000 ;
   border-style: dashed;
   border-radius: 25px;
   border-width: 5px;
   position: relative;
- 
 }
 
 .deleteCardBtn {
