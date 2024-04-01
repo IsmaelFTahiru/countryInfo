@@ -92,6 +92,8 @@ h4 {
   border-radius: 25px;
   border-width: 5px;
   position: relative;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: larger;
 }
 
 .deleteCardBtn {
