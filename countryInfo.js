@@ -168,7 +168,7 @@ const createFlagCard = function (countryData, countryPosition) {
 
   const countryPopulation = document.createElement('p');
   countryPopulation.setAttribute('id', 'countryPopulation');
-  countryPopulation.textContent = `Population: ${countryData[countryPosition].populationData}`;
+  countryPopulation.textContent = `Population: ${countryData[countryPosition].populationData} mio.`;
   countryCard.appendChild(countryPopulation);
   countryPopulation.setAttribute('id', `countryPopulation${countryCardOrder}`);
 
